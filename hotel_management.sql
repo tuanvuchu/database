@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : laragon_mysql
+ Source Server         : docker_mysql
  Source Server Type    : MySQL
- Source Server Version : 80403 (8.4.3)
+ Source Server Version : 90500 (9.5.0)
  Source Host           : localhost:3306
- Source Schema         : hotelmanagement
+ Source Schema         : hotel_management
 
  Target Server Type    : MySQL
- Target Server Version : 80403 (8.4.3)
+ Target Server Version : 90500 (9.5.0)
  File Encoding         : 65001
 
- Date: 29/11/2025 13:36:26
+ Date: 04/12/2025 19:48:47
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `account`  (
   `CreationDate` date NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`AccountId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of account
@@ -48,24 +48,29 @@ CREATE TABLE `bill`  (
   `BillId` int NOT NULL AUTO_INCREMENT,
   `UserId` int NULL DEFAULT NULL,
   `CreationDate` date NOT NULL,
-  `TotalAmount` decimal(10, 2) NOT NULL,
+  `TotalAmount` decimal(10, 3) NOT NULL,
   `Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`BillId`) USING BTREE,
   INDEX `UserId`(`UserId` ASC) USING BTREE,
   CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of bill
 -- ----------------------------
+INSERT INTO `bill` VALUES (1, 1, '2009-01-19', 195.550, 'jUsRlUvyw8', 'uV2Lqpicf1', 0);
+INSERT INTO `bill` VALUES (2, 2, '2014-02-12', 314.320, 'RBLWCjOxuG', '9X7BQtPxWS', 0);
+INSERT INTO `bill` VALUES (3, 2, '2025-05-13', 828.850, 'auJbS7plbF', 'mCvourhD2z', 0);
+INSERT INTO `bill` VALUES (4, 1, '2011-10-06', 130.890, 'JdmLPMtum8', 'Np99uROVet', 0);
+INSERT INTO `bill` VALUES (5, 3, '2018-12-09', 853.620, 'Wzdl4595xm', '9nu45UsAsq', 0);
 
 -- ----------------------------
--- Table structure for bookingvotes
+-- Table structure for booking_votes
 -- ----------------------------
-DROP TABLE IF EXISTS `bookingvotes`;
-CREATE TABLE `bookingvotes`  (
+DROP TABLE IF EXISTS `booking_votes`;
+CREATE TABLE `booking_votes`  (
   `BookingVotesId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `UserId` int NULL DEFAULT NULL,
   `BookingDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -77,21 +82,21 @@ CREATE TABLE `bookingvotes`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`BookingVotesId`) USING BTREE,
   INDEX `UserId`(`UserId` ASC) USING BTREE,
-  CONSTRAINT `bookingvotes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `booking_votes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of bookingvotes
+-- Records of booking_votes
 -- ----------------------------
-INSERT INTO `bookingvotes` VALUES ('0825e4f0-e775-474f-adcb-4f434ca49c0d', 1, '2025-11-27 20:25:33', '2025-11-04', '2025-12-08', 'hihi', 80.00, 'Pending', 0);
-INSERT INTO `bookingvotes` VALUES ('4874989f-9317-42ad-8104-8bb443163039', 1, '2025-11-26 23:10:27', '2025-11-04', '2025-12-08', 'd', 80.00, 'Pending', 0);
-INSERT INTO `bookingvotes` VALUES ('83727f90-cc0b-4ac1-87a8-b09d0ece5b63', 1, '2025-11-26 23:07:59', '2025-11-04', '2025-12-08', 'd', 80.00, 'Pending', 0);
+INSERT INTO `booking_votes` VALUES ('0825e4f0-e775-474f-adcb-4f434ca49c0d', 1, '2025-11-27 20:25:33', '2025-11-04', '2025-12-08', 'hihi', 80.00, 'Pending', 0);
+INSERT INTO `booking_votes` VALUES ('4874989f-9317-42ad-8104-8bb443163039', 1, '2025-11-26 23:10:27', '2025-11-04', '2025-12-08', 'd', 80.00, 'Pending', 0);
+INSERT INTO `booking_votes` VALUES ('83727f90-cc0b-4ac1-87a8-b09d0ece5b63', 1, '2025-11-26 23:07:59', '2025-11-04', '2025-12-08', 'd', 80.00, 'Pending', 0);
 
 -- ----------------------------
--- Table structure for bookingvotesdetail
+-- Table structure for booking_votes_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `bookingvotesdetail`;
-CREATE TABLE `bookingvotesdetail`  (
+DROP TABLE IF EXISTS `booking_votes_detail`;
+CREATE TABLE `booking_votes_detail`  (
   `BookingVotesDetailId` int NOT NULL AUTO_INCREMENT,
   `BookingVotesId` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `RoomId` int NULL DEFAULT NULL,
@@ -101,15 +106,15 @@ CREATE TABLE `bookingvotesdetail`  (
   PRIMARY KEY (`BookingVotesDetailId`) USING BTREE,
   INDEX `BookingVotesId`(`BookingVotesId` ASC) USING BTREE,
   INDEX `RoomId`(`RoomId` ASC) USING BTREE,
-  CONSTRAINT `bookingvotesdetail_ibfk_1` FOREIGN KEY (`BookingVotesId`) REFERENCES `bookingvotes` (`BookingVotesId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `bookingvotesdetail_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `booking_votes_detail_ibfk_1` FOREIGN KEY (`BookingVotesId`) REFERENCES `booking_votes` (`BookingVotesId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `booking_votes_detail_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of bookingvotesdetail
+-- Records of booking_votes_detail
 -- ----------------------------
-INSERT INTO `bookingvotesdetail` VALUES (13, '4874989f-9317-42ad-8104-8bb443163039', 1, 80.00, 'd', 0);
-INSERT INTO `bookingvotesdetail` VALUES (14, '0825e4f0-e775-474f-adcb-4f434ca49c0d', 1, 80.00, 'hihi', 0);
+INSERT INTO `booking_votes_detail` VALUES (13, '4874989f-9317-42ad-8104-8bb443163039', 1, 80.00, 'd', 0);
+INSERT INTO `booking_votes_detail` VALUES (14, '0825e4f0-e775-474f-adcb-4f434ca49c0d', 1, 80.00, 'hihi', 0);
 
 -- ----------------------------
 -- Table structure for device
@@ -128,9 +133,9 @@ CREATE TABLE `device`  (
   PRIMARY KEY (`DeviceId`) USING BTREE,
   INDEX `DeviceTypeId`(`DeviceTypeId` ASC) USING BTREE,
   INDEX `RoomId`(`RoomId` ASC) USING BTREE,
-  CONSTRAINT `device_ibfk_1` FOREIGN KEY (`DeviceTypeId`) REFERENCES `devicetype` (`DeviceTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `device_ibfk_1` FOREIGN KEY (`DeviceTypeId`) REFERENCES `device_type` (`DeviceTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `device_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of device
@@ -147,30 +152,30 @@ INSERT INTO `device` VALUES (9, 'Nệm King Coil', 9, 1, 'https://www.everonvn.v
 INSERT INTO `device` VALUES (10, 'Máy sấy tóc', 10, 2, 'https://sanhangre.net/image/cache/catalog/hoanganh/may-say-toc-gap-gon-panasonic-past-eh-nd30-k645/may-say-toc-panasonic-EH-ND30-K645-1-1000x1000.png', 20.00, 'Operational', 'Máy sấy tóc phòng Standard Twin.', 0);
 
 -- ----------------------------
--- Table structure for devicetype
+-- Table structure for device_type
 -- ----------------------------
-DROP TABLE IF EXISTS `devicetype`;
-CREATE TABLE `devicetype`  (
+DROP TABLE IF EXISTS `device_type`;
+CREATE TABLE `device_type`  (
   `DeviceTypeId` int NOT NULL AUTO_INCREMENT,
   `DeviceTypeName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`DeviceTypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of devicetype
+-- Records of device_type
 -- ----------------------------
-INSERT INTO `devicetype` VALUES (1, 'Electronics', 'Các thiết bị điện tử, giải trí.', 0);
-INSERT INTO `devicetype` VALUES (2, 'Climate Control', 'Thiết bị kiểm soát nhiệt độ.', 0);
-INSERT INTO `devicetype` VALUES (3, 'Plumbing', 'Các thiết bị liên quan đến nước.', 0);
-INSERT INTO `devicetype` VALUES (4, 'Lighting', 'Hệ thống đèn và chiếu sáng.', 0);
-INSERT INTO `devicetype` VALUES (5, 'Seating Furniture', 'Ghế, sofa, vật dụng để ngồi.', 0);
-INSERT INTO `devicetype` VALUES (6, 'Storage Furniture', 'Tủ, kệ, vật dụng để lưu trữ.', 0);
-INSERT INTO `devicetype` VALUES (7, 'Safety & Security', 'Thiết bị an ninh và an toàn.', 0);
-INSERT INTO `devicetype` VALUES (8, 'Kitchen Appliance', 'Thiết bị bếp (cho phòng studio).', 0);
-INSERT INTO `devicetype` VALUES (9, 'Bedding', 'Các vật dụng liên quan đến giường.', 0);
-INSERT INTO `devicetype` VALUES (10, 'Miscellaneous', 'Các thiết bị khác.', 0);
+INSERT INTO `device_type` VALUES (1, 'Electronics', 'Các thiết bị điện tử, giải trí.', 0);
+INSERT INTO `device_type` VALUES (2, 'Climate Control', 'Thiết bị kiểm soát nhiệt độ.', 0);
+INSERT INTO `device_type` VALUES (3, 'Plumbing', 'Các thiết bị liên quan đến nước.', 0);
+INSERT INTO `device_type` VALUES (4, 'Lighting', 'Hệ thống đèn và chiếu sáng.', 0);
+INSERT INTO `device_type` VALUES (5, 'Seating Furniture', 'Ghế, sofa, vật dụng để ngồi.', 0);
+INSERT INTO `device_type` VALUES (6, 'Storage Furniture', 'Tủ, kệ, vật dụng để lưu trữ.', 0);
+INSERT INTO `device_type` VALUES (7, 'Safety & Security', 'Thiết bị an ninh và an toàn.', 0);
+INSERT INTO `device_type` VALUES (8, 'Kitchen Appliance', 'Thiết bị bếp (cho phòng studio).', 0);
+INSERT INTO `device_type` VALUES (9, 'Bedding', 'Các vật dụng liên quan đến giường.', 0);
+INSERT INTO `device_type` VALUES (10, 'Miscellaneous', 'Các thiết bị khác.', 0);
 
 -- ----------------------------
 -- Table structure for evaluation
@@ -191,11 +196,21 @@ CREATE TABLE `evaluation`  (
   INDEX `UserId`(`UserId` ASC) USING BTREE,
   CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `evaluation_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of evaluation
 -- ----------------------------
+INSERT INTO `evaluation` VALUES (1, 2, 6, 3, 'Nice', 'WZKnggCyKR', '2007-03-01 15:36:05', '2025-12-04 12:37:59', 0);
+INSERT INTO `evaluation` VALUES (2, 1, 10, 4, 'Nice', 'nOIr1JKF8h', '2007-05-23 04:04:27', '2025-12-04 12:38:00', 0);
+INSERT INTO `evaluation` VALUES (3, 1, 3, 3, 'Nice', '6dJCI6fTBf', '2023-08-04 08:06:19', '2025-12-04 12:38:00', 0);
+INSERT INTO `evaluation` VALUES (4, 3, 8, 2, 'Nice', 'Mk9FtnlMSg', '2018-09-05 11:23:48', '2025-12-04 12:38:00', 0);
+INSERT INTO `evaluation` VALUES (5, 2, 7, 3, 'Nice', 'BImGDatnY3', '2009-02-16 12:40:16', '2025-12-04 12:38:04', 0);
+INSERT INTO `evaluation` VALUES (6, 1, 8, 1, 'Nice', 'HVLy8CPCWT', '2025-02-10 19:48:57', '2025-12-04 12:38:04', 0);
+INSERT INTO `evaluation` VALUES (7, 2, 8, 5, 'Nice', 'lxIMltLkXI', '2000-01-21 06:46:09', '2025-12-04 12:38:04', 0);
+INSERT INTO `evaluation` VALUES (8, 3, 10, 3, 'Nice', 'nmdEXzeufj', '2018-06-16 14:40:11', '2025-12-04 12:38:05', 0);
+INSERT INTO `evaluation` VALUES (9, 1, 4, 2, 'Nice', 'sEOgohmBYl', '2002-03-30 07:23:43', '2025-12-04 12:38:05', 0);
+INSERT INTO `evaluation` VALUES (10, 1, 10, 3, 'Nice', 'DRvDPQ3ehX', '2012-02-26 15:00:02', '2025-12-04 12:38:02', 0);
 
 -- ----------------------------
 -- Table structure for event
@@ -216,8 +231,8 @@ CREATE TABLE `event`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`EventId`) USING BTREE,
   INDEX `EventTypeId`(`EventTypeId` ASC) USING BTREE,
-  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`EventTypeId`) REFERENCES `eventtype` (`EventTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`EventTypeId`) REFERENCES `event_type` (`EventTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of event
@@ -233,36 +248,36 @@ INSERT INTO `event` VALUES (9, 'Lễ hội Halloween Kids', 9, 'https://encrypte
 INSERT INTO `event` VALUES (10, 'Triển lãm Gốm Sứ', 10, 'https://imagevietnam.vnanet.vn//MediaUpload/Video/2022/02/21/anh-bia-.jpg', '2026-01-15', '2026-01-15 09:00:00', '2026-01-17 21:00:00', 'Hành lang chính', 0.00, 'Scheduled', 'Trưng bày tác phẩm gốm sứ.', 0);
 
 -- ----------------------------
--- Table structure for eventtype
+-- Table structure for event_type
 -- ----------------------------
-DROP TABLE IF EXISTS `eventtype`;
-CREATE TABLE `eventtype`  (
+DROP TABLE IF EXISTS `event_type`;
+CREATE TABLE `event_type`  (
   `EventTypeId` int NOT NULL AUTO_INCREMENT,
   `EventTypeName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`EventTypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of eventtype
+-- Records of event_type
 -- ----------------------------
-INSERT INTO `eventtype` VALUES (1, 'Gala Dinner', 'Tiệc tối trang trọng.', 0);
-INSERT INTO `eventtype` VALUES (2, 'Conference', 'Hội nghị, hội thảo kinh doanh.', 0);
-INSERT INTO `eventtype` VALUES (3, 'Wedding', 'Tiệc cưới và sự kiện liên quan.', 0);
-INSERT INTO `eventtype` VALUES (4, 'Team Building', 'Hoạt động gắn kết đội nhóm.', 0);
-INSERT INTO `eventtype` VALUES (5, 'Product Launch', 'Sự kiện ra mắt sản phẩm mới.', 0);
-INSERT INTO `eventtype` VALUES (6, 'Live Music Night', 'Đêm nhạc sống, giải trí.', 0);
-INSERT INTO `eventtype` VALUES (7, 'Cooking Class', 'Lớp học nấu ăn.', 0);
-INSERT INTO `eventtype` VALUES (8, 'Yoga Retreat', 'Khóa thiền và yoga.', 0);
-INSERT INTO `eventtype` VALUES (9, 'Kids Festival', 'Lễ hội dành cho trẻ em.', 0);
-INSERT INTO `eventtype` VALUES (10, 'Art Exhibition', 'Triển lãm nghệ thuật.', 0);
+INSERT INTO `event_type` VALUES (1, 'Gala Dinner', 'Tiệc tối trang trọng.', 0);
+INSERT INTO `event_type` VALUES (2, 'Conference', 'Hội nghị, hội thảo kinh doanh.', 0);
+INSERT INTO `event_type` VALUES (3, 'Wedding', 'Tiệc cưới và sự kiện liên quan.', 0);
+INSERT INTO `event_type` VALUES (4, 'Team Building', 'Hoạt động gắn kết đội nhóm.', 0);
+INSERT INTO `event_type` VALUES (5, 'Product Launch', 'Sự kiện ra mắt sản phẩm mới.', 0);
+INSERT INTO `event_type` VALUES (6, 'Live Music Night', 'Đêm nhạc sống, giải trí.', 0);
+INSERT INTO `event_type` VALUES (7, 'Cooking Class', 'Lớp học nấu ăn.', 0);
+INSERT INTO `event_type` VALUES (8, 'Yoga Retreat', 'Khóa thiền và yoga.', 0);
+INSERT INTO `event_type` VALUES (9, 'Kids Festival', 'Lễ hội dành cho trẻ em.', 0);
+INSERT INTO `event_type` VALUES (10, 'Art Exhibition', 'Triển lãm nghệ thuật.', 0);
 
 -- ----------------------------
--- Table structure for eventvotes
+-- Table structure for event_votes
 -- ----------------------------
-DROP TABLE IF EXISTS `eventvotes`;
-CREATE TABLE `eventvotes`  (
+DROP TABLE IF EXISTS `event_votes`;
+CREATE TABLE `event_votes`  (
   `EventVotesId` int NOT NULL AUTO_INCREMENT,
   `EventId` int NULL DEFAULT NULL,
   `UserId` int NULL DEFAULT NULL,
@@ -271,19 +286,19 @@ CREATE TABLE `eventvotes`  (
   PRIMARY KEY (`EventVotesId`) USING BTREE,
   INDEX `EventId`(`EventId` ASC) USING BTREE,
   INDEX `UserId`(`UserId` ASC) USING BTREE,
-  CONSTRAINT `eventvotes_ibfk_1` FOREIGN KEY (`EventId`) REFERENCES `event` (`EventId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `eventvotes_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `event_votes_ibfk_1` FOREIGN KEY (`EventId`) REFERENCES `event` (`EventId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `event_votes_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of eventvotes
+-- Records of event_votes
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for rentroomvotes
+-- Table structure for rent_room_votes
 -- ----------------------------
-DROP TABLE IF EXISTS `rentroomvotes`;
-CREATE TABLE `rentroomvotes`  (
+DROP TABLE IF EXISTS `rent_room_votes`;
+CREATE TABLE `rent_room_votes`  (
   `RentRoomVotesId` int NOT NULL AUTO_INCREMENT,
   `UserId` int NULL DEFAULT NULL,
   `ActualCheckinDate` date NOT NULL,
@@ -294,18 +309,18 @@ CREATE TABLE `rentroomvotes`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`RentRoomVotesId`) USING BTREE,
   INDEX `UserId`(`UserId` ASC) USING BTREE,
-  CONSTRAINT `rentroomvotes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `rent_room_votes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of rentroomvotes
+-- Records of rent_room_votes
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for rentroomvotesdetail
+-- Table structure for rent_room_votes_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `rentroomvotesdetail`;
-CREATE TABLE `rentroomvotesdetail`  (
+DROP TABLE IF EXISTS `rent_room_votes_detail`;
+CREATE TABLE `rent_room_votes_detail`  (
   `RentRoomVotesDetailId` int NOT NULL AUTO_INCREMENT,
   `RentRoomVotesId` int NULL DEFAULT NULL,
   `RoomId` int NULL DEFAULT NULL,
@@ -315,12 +330,12 @@ CREATE TABLE `rentroomvotesdetail`  (
   PRIMARY KEY (`RentRoomVotesDetailId`) USING BTREE,
   INDEX `RentRoomVotesId`(`RentRoomVotesId` ASC) USING BTREE,
   INDEX `RoomId`(`RoomId` ASC) USING BTREE,
-  CONSTRAINT `rentroomvotesdetail_ibfk_1` FOREIGN KEY (`RentRoomVotesId`) REFERENCES `rentroomvotes` (`RentRoomVotesId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `rentroomvotesdetail_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `rent_room_votes_detail_ibfk_1` FOREIGN KEY (`RentRoomVotesId`) REFERENCES `rent_room_votes` (`RentRoomVotesId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `rent_room_votes_detail_ibfk_2` FOREIGN KEY (`RoomId`) REFERENCES `room` (`RoomId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of rentroomvotesdetail
+-- Records of rent_room_votes_detail
 -- ----------------------------
 
 -- ----------------------------
@@ -342,8 +357,8 @@ CREATE TABLE `room`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`RoomId`) USING BTREE,
   INDEX `RoomTypeId`(`RoomTypeId` ASC) USING BTREE,
-  CONSTRAINT `room_ibfk_1` FOREIGN KEY (`RoomTypeId`) REFERENCES `roomtype` (`RoomTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `room_ibfk_1` FOREIGN KEY (`RoomTypeId`) REFERENCES `room_type` (`RoomTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of room
@@ -361,30 +376,30 @@ INSERT INTO `room` VALUES (10, 10, 'https://www.travelandleisure.com/thmb/pBauS6
 INSERT INTO `room` VALUES (11, 3, 'https://www.travelandleisure.com/thmb/7U1mqw7mwbLPkAKeg6hxEiVWPZ0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/TAL-waldorf-astoria-maldives-ithaafushi-010-TOP100HOTELSWB24-45fe09accf304cb5897b51755091a90c.jpg', 4.00, 12321, 123123, 'Occupied', '231231', 5.00, '123', '123', 0);
 
 -- ----------------------------
--- Table structure for roomtype
+-- Table structure for room_type
 -- ----------------------------
-DROP TABLE IF EXISTS `roomtype`;
-CREATE TABLE `roomtype`  (
+DROP TABLE IF EXISTS `room_type`;
+CREATE TABLE `room_type`  (
   `RoomTypeId` int NOT NULL AUTO_INCREMENT,
   `RoomTypeName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`RoomTypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of roomtype
+-- Records of room_type
 -- ----------------------------
-INSERT INTO `roomtype` VALUES (1, 'Standard King', 'Phòng tiêu chuẩn giường King, view thành phố.', 0);
-INSERT INTO `roomtype` VALUES (2, 'Standard Twin', 'Phòng tiêu chuẩn 2 giường đơn, view thành phố.', 0);
-INSERT INTO `roomtype` VALUES (3, 'Deluxe King', 'Phòng cao cấp giường King, có ban công.', 0);
-INSERT INTO `roomtype` VALUES (4, 'Deluxe Twin', 'Phòng cao cấp 2 giường đơn, có ban công.', 0);
-INSERT INTO `roomtype` VALUES (5, 'Suite View', 'Phòng Suite lớn, tầm nhìn đẹp nhất.', 0);
-INSERT INTO `roomtype` VALUES (6, 'Family Room', 'Phòng gia đình, 1 giường King và 1 giường Twin.', 0);
-INSERT INTO `roomtype` VALUES (7, 'President Suite', 'Phòng Tổng thống, sang trọng bậc nhất.', 0);
-INSERT INTO `roomtype` VALUES (8, 'Studio', 'Phòng Studio có khu vực bếp nhỏ.', 0);
-INSERT INTO `roomtype` VALUES (9, 'Connecting Room', '2 phòng Standard có cửa thông nhau.', 0);
-INSERT INTO `roomtype` VALUES (10, 'Handicap Accessible', 'Phòng tiêu chuẩn dành cho người khuyết tật.', 0);
+INSERT INTO `room_type` VALUES (1, 'Standard King', 'Phòng tiêu chuẩn giường King, view thành phố.', 0);
+INSERT INTO `room_type` VALUES (2, 'Standard Twin', 'Phòng tiêu chuẩn 2 giường đơn, view thành phố.', 0);
+INSERT INTO `room_type` VALUES (3, 'Deluxe King', 'Phòng cao cấp giường King, có ban công.', 0);
+INSERT INTO `room_type` VALUES (4, 'Deluxe Twin', 'Phòng cao cấp 2 giường đơn, có ban công.', 0);
+INSERT INTO `room_type` VALUES (5, 'Suite View', 'Phòng Suite lớn, tầm nhìn đẹp nhất.', 0);
+INSERT INTO `room_type` VALUES (6, 'Family Room', 'Phòng gia đình, 1 giường King và 1 giường Twin.', 0);
+INSERT INTO `room_type` VALUES (7, 'President Suite', 'Phòng Tổng thống, sang trọng bậc nhất.', 0);
+INSERT INTO `room_type` VALUES (8, 'Studio', 'Phòng Studio có khu vực bếp nhỏ.', 0);
+INSERT INTO `room_type` VALUES (9, 'Connecting Room', '2 phòng Standard có cửa thông nhau.', 0);
+INSERT INTO `room_type` VALUES (10, 'Handicap Accessible', 'Phòng tiêu chuẩn dành cho người khuyết tật.', 0);
 
 -- ----------------------------
 -- Table structure for service
@@ -400,8 +415,8 @@ CREATE TABLE `service`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ServiceId`) USING BTREE,
   INDEX `ServiceTypeId`(`ServiceTypeId` ASC) USING BTREE,
-  CONSTRAINT `service_ibfk_1` FOREIGN KEY (`ServiceTypeId`) REFERENCES `servicetype` (`ServiceTypeId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `service_ibfk_1` FOREIGN KEY (`ServiceTypeId`) REFERENCES `service_type` (`ServiceTypeId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of service
@@ -418,36 +433,36 @@ INSERT INTO `service` VALUES (9, 'Lớp vẽ cho trẻ em', 9, 'https://rosie.vn
 INSERT INTO `service` VALUES (10, 'Thuê xe máy 1 ngày', 10, 'https://chothuexemaysaigon59.com/uploads/6809/news/36334706805803d1aef7/thuexemaysaigonkhongcanbanglai2.jpg', 15.00, 'Cho thuê xe máy.', 0);
 
 -- ----------------------------
--- Table structure for servicetype
+-- Table structure for service_type
 -- ----------------------------
-DROP TABLE IF EXISTS `servicetype`;
-CREATE TABLE `servicetype`  (
+DROP TABLE IF EXISTS `service_type`;
+CREATE TABLE `service_type`  (
   `ServiceTypeId` int NOT NULL AUTO_INCREMENT,
   `ServiceTypeName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ServiceTypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of servicetype
+-- Records of service_type
 -- ----------------------------
-INSERT INTO `servicetype` VALUES (1, 'Room Service', 'Dịch vụ phục vụ ăn uống tại phòng.', 0);
-INSERT INTO `servicetype` VALUES (2, 'Food & Beverage', 'Đồ ăn và thức uống tại nhà hàng.', 0);
-INSERT INTO `servicetype` VALUES (3, 'Wellness & Spa', 'Spa, Massage, Thể hình.', 0);
-INSERT INTO `servicetype` VALUES (4, 'Transport', 'Vận chuyển, đưa đón sân bay.', 0);
-INSERT INTO `servicetype` VALUES (5, 'Laundry', 'Dịch vụ giặt ủi.', 0);
-INSERT INTO `servicetype` VALUES (6, 'Entertainment', 'Giải trí, thuê thiết bị.', 0);
-INSERT INTO `servicetype` VALUES (7, 'Business Center', 'Dịch vụ văn phòng, in ấn.', 0);
-INSERT INTO `servicetype` VALUES (8, 'Excursion', 'Tour tham quan địa phương.', 0);
-INSERT INTO `servicetype` VALUES (9, 'Kids Club', 'Dịch vụ chăm sóc trẻ em.', 0);
-INSERT INTO `servicetype` VALUES (10, 'Rentals', 'Cho thuê xe đạp, ô tô.', 0);
+INSERT INTO `service_type` VALUES (1, 'Room Service', 'Dịch vụ phục vụ ăn uống tại phòng.', 0);
+INSERT INTO `service_type` VALUES (2, 'Food & Beverage', 'Đồ ăn và thức uống tại nhà hàng.', 0);
+INSERT INTO `service_type` VALUES (3, 'Wellness & Spa', 'Spa, Massage, Thể hình.', 0);
+INSERT INTO `service_type` VALUES (4, 'Transport', 'Vận chuyển, đưa đón sân bay.', 0);
+INSERT INTO `service_type` VALUES (5, 'Laundry', 'Dịch vụ giặt ủi.', 0);
+INSERT INTO `service_type` VALUES (6, 'Entertainment', 'Giải trí, thuê thiết bị.', 0);
+INSERT INTO `service_type` VALUES (7, 'Business Center', 'Dịch vụ văn phòng, in ấn.', 0);
+INSERT INTO `service_type` VALUES (8, 'Excursion', 'Tour tham quan địa phương.', 0);
+INSERT INTO `service_type` VALUES (9, 'Kids Club', 'Dịch vụ chăm sóc trẻ em.', 0);
+INSERT INTO `service_type` VALUES (10, 'Rentals', 'Cho thuê xe đạp, ô tô.', 0);
 
 -- ----------------------------
--- Table structure for servicevotes
+-- Table structure for service_votes
 -- ----------------------------
-DROP TABLE IF EXISTS `servicevotes`;
-CREATE TABLE `servicevotes`  (
+DROP TABLE IF EXISTS `service_votes`;
+CREATE TABLE `service_votes`  (
   `ServiceVotesId` int NOT NULL AUTO_INCREMENT,
   `ServiceId` int NULL DEFAULT NULL,
   `UserId` int NULL DEFAULT NULL,
@@ -457,12 +472,12 @@ CREATE TABLE `servicevotes`  (
   PRIMARY KEY (`ServiceVotesId`) USING BTREE,
   INDEX `ServiceId`(`ServiceId` ASC) USING BTREE,
   INDEX `UserId`(`UserId` ASC) USING BTREE,
-  CONSTRAINT `servicevotes_ibfk_1` FOREIGN KEY (`ServiceId`) REFERENCES `service` (`ServiceId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `servicevotes_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `service_votes_ibfk_1` FOREIGN KEY (`ServiceId`) REFERENCES `service` (`ServiceId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `service_votes_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of servicevotes
+-- Records of service_votes
 -- ----------------------------
 
 -- ----------------------------
@@ -477,20 +492,20 @@ CREATE TABLE `staff`  (
   `Gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `PhoneNumber` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Position` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Salary` decimal(10, 2) NOT NULL,
+  `Position` enum('Receptionist','Waiter','Bartender') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Salary` decimal(10, 3) NOT NULL,
   `Status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `WorkStartDate` date NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`StaffId`) USING BTREE,
   CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`StaffId`) REFERENCES `account` (`AccountId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of staff
 -- ----------------------------
-INSERT INTO `staff` VALUES (1, 'Nguyễn Văn Quản Lý', 'https://lh3.googleusercontent.com/d/1zqMIdozBfhSb88dR0zNrtrdVLKiLf7qF', '1980-04-30', 'Male', '0981111111', '10 Phan Chu Trinh, HN', 'Manager', 3000.00, 'Working', '2017-12-31', 'Quản lý chung khách sạn.', 0);
+INSERT INTO `staff` VALUES (1, 'Chu Tuấn Vũ', 'https://lh3.googleusercontent.com/d/1rnGpYGeib6ZeW6k3gckzHLoxOLXiGjGh', '2004-06-02', 'Male', '0967785311', 'Hưng Yên', 'Receptionist', 3000.000, 'Online', '2017-12-30', 'Quản lý chung khách sạn.', 0);
 
 -- ----------------------------
 -- Table structure for users
@@ -508,13 +523,13 @@ CREATE TABLE `users`  (
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`UserId`) USING BTREE,
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `account` (`AccountId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, '534534534534', 'Anh', 'https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg?semt=ais_hybrid&w=740&q=80', '2004-04-29', 'Male', '0234354534', 'Hải Dương', 0);
-INSERT INTO `users` VALUES (2, '703423609813', 'Hoang', 'https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg?semt=ais_hybrid&w=740&q=80', '2020-04-26', 'Male', '0234354534', 'Hải Dương', 0);
+INSERT INTO `users` VALUES (1, '534534534534', 'Nguyễn Thị Thanh Lan', 'https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg?semt=ais_hybrid&w=740&q=80', '2004-08-02', 'Female', '0234354534', 'Hải Dương', 0);
+INSERT INTO `users` VALUES (2, '703423609813', 'Chu Tuấn Vũ', 'https://lh3.googleusercontent.com/d/1rnGpYGeib6ZeW6k3gckzHLoxOLXiGjGh', '2004-06-02', 'Male', '0967785311', 'Hưng Yên', 0);
 INSERT INTO `users` VALUES (3, '214790115481', 'Test', 'https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg?semt=ais_hybrid&w=740&q=80', '2000-04-26', 'Male', '0234354534', 'Hải Dương', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
