@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : laragon_mysql
+ Source Server         : docker_mysql
  Source Server Type    : MySQL
- Source Server Version : 80403 (8.4.3)
+ Source Server Version : 90500 (9.5.0)
  Source Host           : localhost:3306
  Source Schema         : da4
 
  Target Server Type    : MySQL
- Target Server Version : 80403 (8.4.3)
+ Target Server Version : 90500 (9.5.0)
  File Encoding         : 65001
 
- Date: 29/11/2025 13:36:02
+ Date: 22/12/2025 10:42:59
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `comments`  (
   INDEX `aaa`(`user_id` ASC) USING BTREE,
   CONSTRAINT `aa` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `aaa` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of comments
@@ -256,6 +256,28 @@ INSERT INTO `comments` VALUES ('fab690c6-10d4-ec4f-1e49-80294891c9e6', '6852a714
 INSERT INTO `comments` VALUES ('fc0d282a-9973-eba7-a332-c96ee049fd50', '649bfb5f-0741-4211-936a-f0375442926e', '2477ea11-b9b9-450f-b1e3-53bc32008b10', 2, 'Đặt nhiều lần rồi, lần nào cũng giữ phong độ như cũ.', NULL, '2022-02-03 11:29:02');
 
 -- ----------------------------
+-- Table structure for delivery_address
+-- ----------------------------
+DROP TABLE IF EXISTS `delivery_address`;
+CREATE TABLE `delivery_address`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `type` enum('home','work','other') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_delivery_address_users`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `fk_delivery_address_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of delivery_address
+-- ----------------------------
+INSERT INTO `delivery_address` VALUES ('70bf511e-96c3-5930-524f-1263c90932b2', '4a2194f0-97db-45b2-b35b-457fc590b4c0', '875 Collier Road Suite 3, Akron, OH 44320, United States', 'a4pHA4NKdp', 'lXxvl23MNJ', 'home');
+INSERT INTO `delivery_address` VALUES ('73844a33-d381-d8ff-dde2-2f7175415bcb', '2477ea11-b9b9-450f-b1e3-53bc32008b10', '390 East Alley 3rd Floor, Columbus, GA 43201, United States', 'BBLAz8LAGI', '7nzxlI6YMi', 'work');
+
+-- ----------------------------
 -- Table structure for favorites
 -- ----------------------------
 DROP TABLE IF EXISTS `favorites`;
@@ -277,6 +299,7 @@ CREATE TABLE `favorites`  (
 -- ----------------------------
 INSERT INTO `favorites` VALUES ('568ff8b7-b4e5-42f4-a820-e244c2648a8a', '2477ea11-b9b9-450f-b1e3-53bc32008b10', '2a188c7c-a8fe-458f-bfa9-0c84d24bd876', '2025-10-17 14:46:53', '2025-10-17 14:46:53');
 INSERT INTO `favorites` VALUES ('8fa2e2aa-2bae-42a7-8767-8c38af41cefa', '2477ea11-b9b9-450f-b1e3-53bc32008b10', '007f4f05-49a1-4b85-a729-62a2fee1617b', '2025-10-17 14:20:47', '2025-10-17 14:20:47');
+INSERT INTO `favorites` VALUES ('a6fd2926-d804-47d5-9550-657071af2a04', '4a2194f0-97db-45b2-b35b-457fc590b4c0', '007f4f05-49a1-4b85-a729-62a2fee1617b', '2025-12-13 16:44:07', '2025-12-13 16:44:07');
 INSERT INTO `favorites` VALUES ('e76b24c6-2c5a-4afd-a467-ce438b928d47', '2477ea11-b9b9-450f-b1e3-53bc32008b10', '07bebcf4-a4f5-427a-80e3-621202ae5da0', '2025-10-17 14:20:38', '2025-10-17 14:20:38');
 
 -- ----------------------------
@@ -299,6 +322,7 @@ CREATE TABLE `order_items`  (
 -- ----------------------------
 -- Records of order_items
 -- ----------------------------
+INSERT INTO `order_items` VALUES ('0a631111-85b6-4aa1-a3ea-ee68527aa072', '7024e436-0219-4235-883f-87a6ff9cb32b', 1, 50000, 50000, '2025-12-17 20:44:46');
 INSERT INTO `order_items` VALUES ('32d1f8be-73e9-4539-ae91-3439bf7679e4', '9b15a51a-dbea-40bb-bbaf-7279de87db3f', 2, 15000, 30000, '2025-10-17 16:00:34');
 INSERT INTO `order_items` VALUES ('3f3d6b9e-952a-4a5d-b9f2-500d9bb6380b', '065ad2ab-12ab-4819-bceb-8a453bfd847b', 1, 45000, 45000, '2025-10-17 15:26:00');
 INSERT INTO `order_items` VALUES ('3f3d6b9e-952a-4a5d-b9f2-500d9bb6380b', '416513f5-7e44-4421-9482-bb1884d1d812', 1, 55000, 55000, '2025-10-17 15:26:00');
@@ -337,6 +361,7 @@ CREATE TABLE `orders`  (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES ('0a631111-85b6-4aa1-a3ea-ee68527aa072', '4a2194f0-97db-45b2-b35b-457fc590b4c0', 50000, 'delivered', 'cod', '', '2025-12-17 20:44:45', '2025-12-19 13:37:39');
 INSERT INTO `orders` VALUES ('32d1f8be-73e9-4539-ae91-3439bf7679e4', '2477ea11-b9b9-450f-b1e3-53bc32008b10', 30000, 'delivered', 'cod', '', '2025-10-17 16:00:34', '2025-10-18 22:00:44');
 INSERT INTO `orders` VALUES ('3f3d6b9e-952a-4a5d-b9f2-500d9bb6380b', '2477ea11-b9b9-450f-b1e3-53bc32008b10', 160000, 'canceled', 'cod', 'test1', '2025-10-17 15:26:00', '2025-10-18 22:14:05');
 INSERT INTO `orders` VALUES ('745d282f-7c86-4220-8574-846783437a90', '2477ea11-b9b9-450f-b1e3-53bc32008b10', 180000, 'shipping', 'cod', '', '2025-10-17 16:06:40', '2025-10-17 16:06:40');
@@ -377,7 +402,7 @@ CREATE TABLE `products`  (
 INSERT INTO `products` VALUES ('065ad2ab-12ab-4819-bceb-8a453bfd847b', '07bebcf4-a4f5-427a-80e3-621202ae5da0', 'Phở cuốn bò', 'Món phở cuốn truyền thống với thịt bò xào thơm lừng.', 'Bánh phở, thịt bò, rau sống, bún, nước chấm chua ngọt.', 45000, 40000, 'ba96ed45.png', NULL, NULL, '2025-10-01 21:20:03', '2025-10-17 16:36:58');
 INSERT INTO `products` VALUES ('0a072243-704d-4389-bd5f-c97f7ceffec5', '648a2f32-bbc9-432e-bf7d-ec3c9d88436a', 'Bánh mì bơ tỏi', 'Bánh mì nướng giòn rụm cùng bơ và tỏi phi thơm lừng.', 'Bánh mì, bơ lạt, tỏi, rau mùi tây.', 25000, 20000, '11c7bc63.png', NULL, NULL, '2025-10-01 21:53:08', '2025-10-17 10:32:15');
 INSERT INTO `products` VALUES ('0ad59a81-de78-4632-92d3-982b054b2bc9', '67196cf3-2bbc-499b-9d1f-65b531a2f7de', 'Bánh Mochi Trà Xanh', 'Bánh mochi dẻo thơm với nhân kem trà xanh mát lạnh.', 'Bột nếp, đường, trà xanh, kem tươi.', 30000, 25000, 'dd47e971.png', NULL, NULL, '2025-10-01 21:55:26', '2025-10-17 10:32:15');
-INSERT INTO `products` VALUES ('0cd2e975-ed9a-479b-86fb-8a6164b418c8', 'bc70a198-c9a3-4418-b73e-e4843346caed', 'Nước Ép Cam Tươi', 'Cam tươi nguyên chất, giàu vitamin C.', 'Cam tươi, đá viên.', 35000, 30000, '0b4d0ce2.png', NULL, NULL, '2025-10-01 22:00:14', '2025-10-17 10:32:15');
+INSERT INTO `products` VALUES ('0cd2e975-ed9a-479b-86fb-8a6164b418c8', 'bc70a198-c9a3-4418-b73e-e4843346caed', 'Nước Ép Cam Tươi', 'Cam tươi nguyên chất, giàu vitamin C.', 'Cam tươi, đá viên', 35000, 30000, '0b4d0ce2.png', NULL, NULL, '2025-10-01 22:00:14', '2025-12-19 15:48:46');
 INSERT INTO `products` VALUES ('0e70422a-c631-4714-b6d1-752c5b27b958', 'ad14bf33-ef2a-492b-a443-bec1d5550f0b', 'Lẩu Thái Tom Yum', 'Lẩu Thái chua cay chuẩn vị, đầy đủ hải sản và rau.', 'Nước dùng lẩu Thái, tôm, mực, nấm, rau.', 280000, 275000, '2cd30905.png', NULL, NULL, '2025-10-01 21:59:02', '2025-10-17 10:32:15');
 INSERT INTO `products` VALUES ('0ebc0608-2f64-4a16-9746-095de98298b4', '648a2f32-bbc9-432e-bf7d-ec3c9d88436a', 'Bánh mì trứng phô mai', 'Bánh mì kẹp trứng chiên và phô mai tan chảy.', 'Bánh mì, trứng gà, phô mai lát, sốt.', 35000, 30000, 'e951f4e2.png', NULL, NULL, '2025-10-01 21:53:26', '2025-10-17 10:32:15');
 INSERT INTO `products` VALUES ('0ec5769f-1d1e-4e7d-85b1-1066d44130ec', 'ad14bf33-ef2a-492b-a443-bec1d5550f0b', 'Lẩu Nấm Chay', 'Lẩu thanh đạm với các loại nấm tươi ngon.', 'Nước dùng chay, các loại nấm, đậu hũ, rau củ.', 180000, 175000, '497df6e5.png', NULL, NULL, '2025-10-01 21:58:52', '2025-10-17 10:32:15');
@@ -477,7 +502,7 @@ CREATE TABLE `ratings`  (
   INDEX `b`(`restaurant_id` ASC) USING BTREE,
   CONSTRAINT `a` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `b` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ratings
@@ -674,7 +699,7 @@ CREATE TABLE `restaurant_opening_hours`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `d`(`restaurant_id` ASC) USING BTREE,
   CONSTRAINT `d` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of restaurant_opening_hours
